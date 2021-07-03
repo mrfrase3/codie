@@ -13,7 +13,6 @@ export default {
     async login({ commit }, { username, password }) {
       const res = await fetch('/api/auth/login/', {
         method: 'POST',
-        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -26,14 +25,14 @@ export default {
       commit('users/add', data.item, { root: true });
     },
     async logout({ commit }) {
-      const res = await fetch('/api/auth/logout/', { credentials: 'include' });
+      const res = await fetch('/api/auth/logout/');
       const result = await res.json();
       if (!result.success) throw new Error(result.message);
       commit('setLoggedIn');
       commit('users/reset', { root: true });
     },
     async init({ commit }) {
-      const res = await fetch('/api/auth/ping/', { credentials: 'include' });
+      const res = await fetch('/api/auth/ping/');
       const data = await res.json();
       if (data.success === false || res.status !== 200) return false;
       commit('setLoggedIn', data.item);

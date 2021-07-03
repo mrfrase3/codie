@@ -20,13 +20,13 @@ export default (
   },
   actions: {
     async get({ commit }, id) {
-      const res = await fetch(`/api/${service}/${id}/`, { credentials: 'include' });
+      const res = await fetch(`/api/${service}/${id}/`);
       const data = await res.json();
       if (data.success === false) throw new Error(data.message);
       commit('add', data.item);
     },
     async all({ commit }) {
-      const res = await fetch(`/api/${service}/`, { credentials: 'include' });
+      const res = await fetch(`/api/${service}/`);
       const data = await res.json();
       if (data.success === false) throw new Error(data.message);
       data.items.forEach((item) => commit('add', item));
@@ -34,7 +34,6 @@ export default (
     async create({ commit }, createData) {
       const res = await fetch(`/api/${service}/`, {
         method: 'POST',
-        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -47,7 +46,6 @@ export default (
     async patch({ commit }, [id, patchData]) {
       const res = await fetch(`/api/${service}/${id}/`, {
         method: 'PATCH',
-        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -60,7 +58,6 @@ export default (
     async remove({ commit }, id) {
       const res = await fetch(`/api/${service}/${id}/`, {
         method: 'DELETE',
-        credentials: 'include',
       });
       const data = await res.json();
       if (data.success === false) throw new Error(data.message);

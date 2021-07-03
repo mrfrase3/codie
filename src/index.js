@@ -41,7 +41,7 @@ app.express_session = session({
   cookie: {
     path: '/',
     domain: process.env.PROXY_DOMAIN || 'local.codie.cloud',
-    httpOnly: true,
+    httpOnly: false,
     maxAge: null,
   },
   resave: false,

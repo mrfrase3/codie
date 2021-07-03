@@ -4,6 +4,10 @@ node_modules
 /storage
 /proxy
 
+/certs/accounts
+/certs/live
+/certs/staging
+
 # local env files
 .env.local
 .env.*.local

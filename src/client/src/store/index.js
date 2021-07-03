@@ -31,13 +31,13 @@ export default new Vuex.Store({
     projects: base('projects', {
       actions: {
         async power({ commit }, [id, action]) {
-          const res = await fetch(`/api/projects/${id}/${action}`, { credentials: 'include' });
+          const res = await fetch(`/api/projects/${id}/${action}`);
           const data = await res.json();
           if (data.success === false) throw new Error(data.message);
           commit('add', data.item);
         },
         async scripts() {
-          const res = await fetch('/api/projects/scripts', { credentials: 'include' });
+          const res = await fetch('/api/projects/scripts');
           const data = await res.json();
           if (data.success === false) throw new Error(data.message);
           return data.item;

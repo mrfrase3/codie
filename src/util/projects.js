@@ -6,6 +6,7 @@ const namor = require('namor');
 const _ = require('lodash');
 const proxy = require('./proxy');
 const Docker = require('./docker');
+const Ssl = require('./ssl');
 // eslint-disable-next-line no-unused-vars
 const app = require('../../app');
 
@@ -19,6 +20,7 @@ try {
 }
 const save = () => fs.writeFile(file, JSON.stringify(projects.map((p) => _.omit(p, ['container'])), null, 2));
 const { safe, ...docker } = Docker(projects);
+const ssl = Ssl(projects);
 
 module.exports = {
   async init() {
@@ -29,6 +31,8 @@ module.exports = {
       else await docker.deleteProxy(project.slug);
     }));
     await docker.restartProxy(true);
+    ssl.init();
+    await ssl.genCerts();
     return true;
   },
 
@@ -69,6 +73,7 @@ module.exports = {
 
     projects.push(project);
     await save();
+    await ssl.genCerts();
     return safe(project);
   },
 
@@ -114,6 +119,7 @@ module.exports = {
     await save();
     await docker.deleteProxy(project.slug);
     await docker.restartProxy();
+    await ssl.genCerts();
     return safe(project);
   },
 
